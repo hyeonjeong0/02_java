@@ -13,7 +13,11 @@ package eraser.three;
  * 생성자 정의 : 중복정의
  * 기본 생성자 명시
  * 매개변수를 받는 생성자 : 모든 필드를 다 받도록 정의
+ * 생성자리팩토링 (1)
  *                        : this 키워드를 사용하여 매개변수 생성자 정의
+ * 생성자리팩토링 (2)
+ *                        : this() 다른 생성자 호출 적용하여
+ *                          생성자를 여러개 중복정의
  * ------------------------------------------------
  * 기능 정의 : 메소드로 생성
  * 칠판지우기  : erase() : void    : "칠판을 지웠습니다." 문자열 출력
@@ -50,14 +54,41 @@ public class Eraser {
 		
 	}
 	// (2) 매개변수가 있는 생성자 : 다섯개의 매개변수를 모두 받는다.
-	// 
-	Eraser(double Width, double Height, double Depth, int Layer, String Color) {
-		this.width = Width;
-		this.height = Height;
-		this.depth = Depth;
-		this.layer = Layer;
-		this.color = Color;
+	Eraser(double width) {
+		// 53 줄의 기본 생성자 호출
+		//     : 매개 변수가 비어있는 this() 이므로
+		this();
+		// width 필드는 매개변수로 넘겨진 값으로 초기화
+		this.width = width;
 	}
+	
+	
+	/**
+	 * 지우개의 가로, 세로 필드만 초기화하는 생성자
+	 * @param Width : 가로길이
+	 * 			=> width 필드를 초기화하는 생성자의 기능을 사용
+	 * @param Height : 세로길이 => 직접초기화
+	 */
+	Eraser(double width, double height) {
+		this(width);
+		this.height = height;
+	}
+	
+	Eraser(double width, double height, double depth) {
+		this(width, height);
+		this.depth = depth;
+	}
+	
+	Eraser(double width, double height, double depth, int layer) {
+		this(width, height, depth);
+		this.layer = layer;
+	}
+	
+	Eraser(double width, double height, double depth, int layer, String color) {
+		this(width, height, depth, layer);
+		this.color = color;
+	}
+
 	// 3. 메소드 선언부
 	// (1) eraser()
 	public void erase() {
